@@ -1,0 +1,176 @@
+﻿@using Microsoft.AspNetCore.Http
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ConexionSolidaria</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/ConexionSolidaria.styles.css" />
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom shadow-sm mb-3">
+            <div class="container-fluid">
+
+                <!-- Logo -->
+                <a class="navbar-brand fw-bold"
+                   asp-controller="Dashboard"
+                   asp-action="Index">
+                    ConexionSolidaria
+                </a>
+
+                <!-- Toggle -->
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Menú -->
+                <div class="collapse navbar-collapse" id="mainNavbar">
+
+                    <!-- Menú izquierdo -->
+                    <ul class="navbar-nav me-auto">
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Eventos" asp-action="Index">Eventos</a>
+                        </li>
+
+                        @if (Context.Session.GetString("Rol") == "Coordinador")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Iam" asp-action="Index">IAM</a>
+                            </li>
+                        }
+
+                    </ul>
+
+                    <!-- Zona derecha -->
+                    <ul class="navbar-nav">
+
+                        @if (Context.Session.GetInt32("UsuarioID") == null)
+                        {
+                            <!-- LOGIN -->
+                            <li class="nav-item">
+                                <button class="btn btn-outline-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#loginModal">
+                                    Login
+                                </button>
+                            </li>
+                        }
+                        else
+                        {
+                            <!-- USUARIO LOGUEADO -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle"
+                                   href="#"
+                                   role="button"
+                                   data-bs-toggle="dropdown">
+                                    @Context.Session.GetString("Nombre")
+                                </a>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <form asp-controller="Auth" asp-action="Logout" method="post">
+                                            <button class="dropdown-item text-danger">
+                                                Cerrar sesión
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- CONTENIDO -->
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="border-top footer text-muted text-center py-3">
+        &copy; 2025 - ConexionSolidaria
+    </footer>
+
+    <!-- MODAL PARA EL LOGIN USNADO BOOSTRAP -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Iniciar Sesión</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div id="loginMessage" class="alert d-none"></div>
+
+                    <form id="loginForm">
+
+                        <div class="mb-3">
+                            <label class="form-label">Correo</label>
+                            <input type="email" id="loginEmail" class="form-control" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Contraseña</label>
+                            <div class="input-group">
+                                <input type="password" id="loginPassword" class="form-control" required />
+                                <button type="button" class="btn btn-outline-secondary"
+                                        onclick="togglePassword()">
+                                    👁️
+                                </button>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            Ingresar
+                        </button>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/js/auth.js"></script>
+
+    <script>
+        function togglePassword() {
+            const input = document.getElementById("loginPassword");
+            input.type = input.type === "password" ? "text" : "password";
+        }
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
