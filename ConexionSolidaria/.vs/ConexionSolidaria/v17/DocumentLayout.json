@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\views\\eventos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\views\\eventos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "RelativeDocumentMoniker": "ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "RelativeToolTip": "ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T22:37:55.723Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

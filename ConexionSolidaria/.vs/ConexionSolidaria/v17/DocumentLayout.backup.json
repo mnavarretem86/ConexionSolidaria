@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\views\\eventos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\views\\eventos\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -19,14 +19,14 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "UsuarioController.cs",
-              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Controllers\\UsuarioController.cs",
-              "RelativeDocumentMoniker": "ConexionSolidaria\\Controllers\\UsuarioController.cs",
-              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Controllers\\UsuarioController.cs",
-              "RelativeToolTip": "ConexionSolidaria\\Controllers\\UsuarioController.cs",
-              "ViewState": "AgIAAJUAAAAAAAAAAAAuwKkAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-16T22:31:39.003Z",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "RelativeDocumentMoniker": "ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "RelativeToolTip": "ConexionSolidaria\\Views\\Eventos\\Index.cshtml",
+              "ViewState": "AgIAAJYAAAAAAAAAAAAAADEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T22:37:55.723Z",
               "EditorCaption": ""
             }
           ]

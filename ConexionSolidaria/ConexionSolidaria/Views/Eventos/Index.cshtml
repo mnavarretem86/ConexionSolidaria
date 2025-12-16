@@ -1,4 +1,5 @@
 ﻿@model List<ConexionSolidaria.ViewModels.EventoListadoVM>
+
 @{
     ViewData["Title"] = "Eventos";
     var rol = Context.Session.GetString("Rol");
@@ -12,84 +13,117 @@
 
         @if (rol == "Coordinador")
         {
-            <a asp-action="Crear" class="btn btn-primary btn-hover shadow-sm">
+            <a asp-action="Crear" class="btn btn-primary shadow-sm">
                 <i class="fas fa-plus me-1"></i> Nuevo Evento
             </a>
         }
     </div>
 
-    <div class="card table-eventos-card border-0 shadow-sm">
+    <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-modern table-hover align-middle mb-0">
-                    <thead>
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
                         <tr>
                             <th class="ps-4">Información</th>
-                            <th style="min-width: 250px;">Ubicación</th>
+                            <th style="min-width:260px">Ubicación</th>
                             <th class="text-center">Cupo</th>
                             <th class="text-center">Estado</th>
                             <th class="text-end pe-4">Acciones</th>
                         </tr>
                     </thead>
+
                     <tbody>
                         @foreach (var e in Model)
                         {
+                            var inscritos = e.CupoMaximo - e.CupoDisponible;
+                            var porcentaje = e.CupoMaximo > 0
+                            ? (inscritos * 100 / e.CupoMaximo)
+                            : 0;
+
+                            var colorBar =
+                            porcentaje >= 85 ? "bg-danger" :
+                            porcentaje >= 50 ? "bg-warning" :
+                            "bg-success";
+
                             <tr>
+
                                 <td class="ps-4">
-                                    <span class="text-event-title d-block">@e.Nombre</span>
+                                    <span class="fw-semibold d-block">@e.Nombre</span>
                                     <small class="text-muted">ID: #@e.EventoID</small>
                                 </td>
+
+
                                 <td>
                                     <div class="d-flex flex-column">
-                                        <span class="small fw-bold text-dark mb-1">
-                                            <i class="far fa-calendar-alt me-1 text-primary"></i>@e.Fecha.ToString("dd/MM/yyyy")
+                                        <span class="small fw-bold text-dark">
+                                            <i class="far fa-calendar-alt text-primary me-1"></i>
+                                            @e.Fecha.ToString("dd/MM/yyyy")
                                         </span>
-                                        <span class="small text-muted text-wrap">
-                                            <i class="fas fa-map-marker-alt me-1 text-danger"></i>@e.Lugar
+                                        <span class="small text-muted">
+                                            <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                            @e.Lugar
                                         </span>
                                     </div>
                                 </td>
-                                <td style="min-width: 130px;">
-                                    @{
-                                        var porc = (e.CupoMaximo > 0) ? (100 - (e.CupoDisponible * 100 / e.CupoMaximo)) : 0;
-                                        var colorBar = porc > 85 ? "bg-danger" : (porc > 50 ? "bg-warning" : "bg-success");
-                                    }
+
+
+                                <td class="text-center" style="min-width:140px">
                                     <div class="progress progress-mini mx-auto">
-                                        <div class="progress-bar @colorBar" style="width: @porc%"></div>
+                                        <div class="progress-bar @colorBar"
+                                             style="width:@porcentaje%"></div>
                                     </div>
-                                    <div class="text-center small fw-bold mt-1">
-                                        @e.CupoDisponible <span class="text-muted fw-normal">/ @e.CupoMaximo</span>
+                                    <div class="small fw-bold mt-1">
+                                        @inscritos
+                                        <span class="text-muted fw-normal">
+                                            / @e.CupoMaximo
+                                        </span>
                                     </div>
                                 </td>
+
+
                                 <td class="text-center">
                                     @switch (e.EstadoID)
                                     {
                                         case 1:
-                                            <span class="badge badge-soft badge-soft-success"><i class="fas fa-clock me-1"></i>Programado</span>
+                                            <span class="badge bg-success-subtle text-success border">
+                                                <i class="fas fa-clock me-1"></i> Programado
+                                            </span>
                                             break;
                                         case 2:
-                                            <span class="badge badge-soft badge-soft-info"><i class="fas fa-check me-1"></i>Realizado</span>
+                                            <span class="badge bg-info-subtle text-info border">
+                                                <i class="fas fa-check me-1"></i> Realizado
+                                            </span>
                                             break;
                                         case 3:
-                                            <span class="badge badge-soft badge-soft-danger"><i class="fas fa-ban me-1"></i>Cancelado</span>
+                                            <span class="badge bg-danger-subtle text-danger border">
+                                                <i class="fas fa-ban me-1"></i> Cancelado
+                                            </span>
                                             break;
                                         default:
-                                            <span class="badge badge-soft badge-soft-secondary">@e.EstadoID</span>
+                                            <span class="badge bg-secondary">
+                                                Desconocido
+                                            </span>
                                             break;
                                     }
                                 </td>
+
+
                                 <td class="text-end pe-4">
                                     @if (rol == "Coordinador")
                                     {
-                                        @if (e.EstadoID == 1)
+                                        if (e.EstadoID == 1)
                                         {
-                                            <a asp-action="Editar" asp-route-id="@e.EventoID" class="btn btn-sm btn-outline-warning btn-hover me-1" title="Editar">
+                                            <a asp-action="Editar"
+                                               asp-route-id="@e.EventoID"
+                                               class="btn btn-sm btn-outline-warning"
+                                               title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         }
                                         else
                                         {
-                                            <button class="btn btn-sm btn-outline-secondary disabled" title="No editable">
+                                            <button class="btn btn-sm btn-outline-secondary" disabled>
                                                 <i class="fas fa-lock"></i>
                                             </button>
                                         }
@@ -99,29 +133,36 @@
                                     {
                                         if (e.EstaInscrito)
                                         {
-                                            <span class="badge bg-light text-success border p-2">
+                                            <span class="badge bg-success-subtle text-success border">
                                                 <i class="fas fa-user-check me-1"></i> Inscrito
                                             </span>
                                         }
                                         else if (e.EstadoID == 1 && e.CupoDisponible > 0)
                                         {
-                                            <form asp-controller="Inscripciones" asp-action="Inscribirse" method="post" class="d-inline">
+                                            <form asp-controller="Inscripciones"
+                                                  asp-action="Inscribirse"
+                                                  method="post"
+                                                  class="d-inline">
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="eventoId" value="@e.EventoID" />
-                                                <button type="button" class="btn btn-sm btn-success btn-hover btn-confirmar">
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-success">
                                                     <i class="fas fa-user-plus me-1"></i> Inscribirse
                                                 </button>
                                             </form>
                                         }
-                                        else if (e.CupoDisponible <= 0)
+                                        else
                                         {
-                                            <span class="badge bg-light text-muted border p-2">Agotado</span>
+                                            <span class="badge bg-light text-muted border">
+                                                Agotado
+                                            </span>
                                         }
                                     }
                                 </td>
                             </tr>
                         }
                     </tbody>
+
                 </table>
             </div>
         </div>
