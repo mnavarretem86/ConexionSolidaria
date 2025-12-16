@@ -1,12 +1,71 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\mnavarrete\\source\\repos\\ConexionSolidaria\\",
-  "Documents": [],
+  "WorkspaceRootPath": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\wwwroot\\js\\usuario.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\wwwroot\\js\\usuario.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\views\\usuario\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\views\\usuario\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "usuario.js",
+              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\wwwroot\\js\\usuario.js",
+              "RelativeDocumentMoniker": "ConexionSolidaria\\wwwroot\\js\\usuario.js",
+              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\wwwroot\\js\\usuario.js",
+              "RelativeToolTip": "ConexionSolidaria\\wwwroot\\js\\usuario.js",
+              "ViewState": "AgIAADcAAAAAAAAAAAAmwGgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2025-12-16T04:43:45.915Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Usuario\\Index.cshtml",
+              "RelativeDocumentMoniker": "ConexionSolidaria\\Views\\Usuario\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Usuario\\Index.cshtml",
+              "RelativeToolTip": "ConexionSolidaria\\Views\\Usuario\\Index.cshtml",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAgwK4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-16T04:43:32.174Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UsuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Controllers\\UsuarioController.cs",
+              "RelativeDocumentMoniker": "ConexionSolidaria\\Controllers\\UsuarioController.cs",
+              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Controllers\\UsuarioController.cs",
+              "RelativeToolTip": "ConexionSolidaria\\Controllers\\UsuarioController.cs",
+              "ViewState": "AgIAAKcAAAAAAAAAAAAIwNYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-16T04:43:12.504Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
