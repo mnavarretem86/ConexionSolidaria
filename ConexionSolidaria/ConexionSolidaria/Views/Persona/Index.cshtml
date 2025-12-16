@@ -4,239 +4,217 @@
     ViewData["Title"] = "Personas";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="fw-bold">
-        <i class="bi bi-people-fill me-1"></i> Gestión de Personas
-    </h4>
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h3 class="fw-bold text-dark m-0">
+        <i class="fa-solid fa-users-gear text-primary me-2"></i>Gestión de Personas
+    </h3>
 
-    <button class="btn btn-primary"
+    <button class="btn btn-primary px-4 shadow-sm"
             data-bs-toggle="modal"
             data-bs-target="#modalCrear">
-        <i class="bi bi-plus-circle me-1"></i> Nueva Persona
+        <i class="fa-solid fa-circle-plus me-2"></i>Nueva Persona
     </button>
 </div>
 
-<!-- =========================
-     TABLA
-========================= -->
-<div class="card shadow-sm">
+<div class="card border-0 shadow-sm">
     <div class="card-body p-0">
-        <table class="table table-hover align-middle mb-0">
-            <thead class="table-light">
-                <tr>
-                    <th>Nombre</th>
-                    <th>DNI</th>
-                    <th>Género</th>
-                    <th>Edad</th>
-                    <th>Email</th>
-                    <th>Teléfono</th>
-                    <th class="text-center">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var p in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light">
                     <tr>
-                        <td>@p.NombreCompleto</td>
-                        <td>@p.DNI</td>
-                        <td>@p.Genero</td>
-                        <td>@p.Edad</td>
-                        <td>@p.Email</td>
-                        <td>@p.Telefono</td>
-                        <td class="text-center">
-                            <button type="button"
-                                    class="btn btn-sm btn-outline-warning"
-                                    onclick="abrirEditar(this)"
-                                    data-id="@p.PersonaID"
-                                    data-primernombre="@p.PrimerNombre"
-                                    data-segundonombre="@p.SegundoNombre"
-                                    data-primerapellido="@p.PrimerApellido"
-                                    data-segundoapellido="@p.SegundoApellido"
-                                    data-dni="@p.DNI"
-                                    data-genero="@p.Genero"
-                                    data-fechanacimiento="@(p.FechaNacimiento?.ToString("yyyy-MM-dd"))"
-                                    data-email="@p.Email"
-                                    data-telefono="@p.Telefono"
-                                    data-direccion="@p.Direccion">
-                                <i class="bi bi-pencil-square"></i>
-                            </button>
-                        </td>
+                        <th class="border-0 ps-3">Nombre</th>
+                        <th class="border-0">Identificación (DNI)</th>
+                        <th class="border-0">Género</th>
+                        <th class="border-0">Edad</th>
+                        <th class="border-0">Contacto</th>
+                        <th class="border-0 text-center pe-3">Acciones</th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<!-- =========================
-     MODAL CREAR
-========================= -->
-<div class="modal fade" id="modalCrear" tabindex="-1">
-    <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-
-            <form id="formCrear">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-person-plus me-1"></i> Nueva Persona
-                    </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"></button>
-                </div>
-
-                <div class="modal-body row g-3 px-3">
-
-                    <div class="col-md-6">
-                        <label class="form-label">Primer Nombre</label>
-                        <input class="form-control" name="PrimerNombre" required />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Segundo Nombre</label>
-                        <input class="form-control" name="SegundoNombre" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Primer Apellido</label>
-                        <input class="form-control" name="PrimerApellido" required />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Segundo Apellido</label>
-                        <input class="form-control" name="SegundoApellido" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">DNI</label>
-                        <input class="form-control" name="DNI" required />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Género</label>
-                        <select class="form-select" name="Genero" required>
-                            <option value="">Seleccione</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Fecha Nacimiento</label>
-                        <input type="date" class="form-control" name="FechaNacimiento" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="Email" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Teléfono</label>
-                        <input class="form-control" name="Telefono" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Dirección</label>
-                        <input class="form-control" name="Direccion" />
-                    </div>
-
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
-                        Guardar
-                    </button>
-                </div>
-            </form>
-
+                </thead>
+                <tbody>
+                    @foreach (var p in Model)
+                    {
+                        <tr>
+                            <td class="ps-3 fw-medium">@p.NombreCompleto</td>
+                            <td><span class="badge bg-secondary bg-opacity-10 text-secondary">@p.DNI</span></td>
+                            <td>
+                                @if (p.Genero != null && (p.Genero.ToString() == "M" || p.Genero.ToString() == "Masculino"))
+                                {
+                                    <i class="fa-solid fa-mars text-info me-1"></i>
+                                    <span>M</span>
+                                }
+                                else
+                                {
+                                    <i class="fa-solid fa-venus text-danger me-1"></i>
+                                    <span>F</span>
+                                }
+                            </td>
+                            <td>@p.Edad años</td>
+                            <td>
+                                <div class="small">
+                                    <i class="fa-solid fa-envelope text-muted me-1"></i> @p.Email<br />
+                                    <i class="fa-solid fa-phone text-muted me-1"></i> @p.Telefono
+                                </div>
+                            </td>
+                            <td class="text-center pe-3">
+                                <button type="button"
+                                        class="btn btn-sm btn-light border"
+                                        onclick="abrirEditar(this)"
+                                        data-id="@p.PersonaID"
+                                        data-primernombre="@p.PrimerNombre"
+                                        data-segundonombre="@p.SegundoNombre"
+                                        data-primerapellido="@p.PrimerApellido"
+                                        data-segundoapellido="@p.SegundoApellido"
+                                        data-dni="@p.DNI"
+                                        data-genero="@p.Genero"
+                                        data-fechanacimiento="@(p.FechaNacimiento?.ToString("yyyy-MM-dd"))"
+                                        data-email="@p.Email"
+                                        data-telefono="@p.Telefono"
+                                        data-direccion="@p.Direccion">
+                                    <i class="fa-solid fa-user-pen text-warning"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
-<!-- =========================
-     MODAL EDITAR
-========================= -->
-<div class="modal fade" id="modalEditar" tabindex="-1">
+<div class="modal fade" id="modalCrear" tabindex="-1">
     <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content">
-
-            <form id="formEditar">
-                <input type="hidden" name="PersonaID" />
-
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-pencil-square me-1"></i> Editar Persona
+        <div class="modal-content border-0 shadow">
+            <form id="formCrear">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa-solid fa-user-plus me-2"></i>Registrar Nueva Persona
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
-
-                <div class="modal-body row g-3 px-3">
-
-                    <div class="col-md-6">
-                        <label class="form-label">Primer Nombre</label>
-                        <input class="form-control" name="PrimerNombre" required />
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Nombre</label>
+                            <input class="form-control bg-light" name="PrimerNombre" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Nombre</label>
+                            <input class="form-control bg-light" name="SegundoNombre" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Apellido</label>
+                            <input class="form-control bg-light" name="PrimerApellido" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Apellido</label>
+                            <input class="form-control bg-light" name="SegundoApellido" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">DNI</label>
+                            <input class="form-control bg-light" name="DNI" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Género</label>
+                            <select class="form-select bg-light" name="Genero" required>
+                                <option value="">Seleccione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha Nacimiento</label>
+                            <input type="date" class="form-control bg-light" name="FechaNacimiento" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Correo Electrónico</label>
+                            <input type="email" class="form-control bg-light" name="Email" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input class="form-control bg-light" name="Telefono" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Dirección de Domicilio</label>
+                            <textarea class="form-control bg-light" name="Direccion" rows="2"></textarea>
+                        </div>
                     </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Segundo Nombre</label>
-                        <input class="form-control" name="SegundoNombre" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Primer Apellido</label>
-                        <input class="form-control" name="PrimerApellido" required />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Segundo Apellido</label>
-                        <input class="form-control" name="SegundoApellido" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">DNI</label>
-                        <input class="form-control" name="DNI" required />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Género</label>
-                        <select class="form-select" name="Genero" required>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Fecha Nacimiento</label>
-                        <input type="date" class="form-control" name="FechaNacimiento" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="Email" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Teléfono</label>
-                        <input class="form-control" name="Telefono" />
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label">Dirección</label>
-                        <input class="form-control" name="Direccion" />
-                    </div>
-
                 </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-warning">
-                        Actualizar
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fa-solid fa-floppy-disk me-2"></i>Guardar Persona
                     </button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
 
+<div class="modal fade" id="modalEditar" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form id="formEditar">
+                <input type="hidden" name="PersonaID" />
+                <div class="modal-header bg-dark text-white">
+                    <h5 class="modal-title fw-bold">
+                        <i class="fa-solid fa-user-pen me-2"></i>Actualizar Información
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Nombre</label>
+                            <input class="form-control" name="PrimerNombre" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Nombre</label>
+                            <input class="form-control" name="SegundoNombre" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Apellido</label>
+                            <input class="form-control" name="PrimerApellido" required />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Apellido</label>
+                            <input class="form-control" name="SegundoApellido" />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">DNI</label>
+                            <input class="form-control" name="DNI" required />
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Género</label>
+                            <select class="form-select" name="Genero" required>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha Nacimiento</label>
+                            <input type="date" class="form-control" name="FechaNacimiento" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Email</label>
+                            <input type="email" class="form-control" name="Email" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input class="form-control" name="Telefono" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Dirección</label>
+                            <textarea class="form-control" name="Direccion" rows="2"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-light border-0">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-warning px-4 fw-bold">
+                        <i class="fa-solid fa-arrows-rotate me-2"></i>Actualizar Datos
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

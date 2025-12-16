@@ -20,3 +20,35 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+
+.bg-info-subtle {
+    background-color: #cff4fc !important;
+}
+
+.bg-success-subtle {
+    background-color: #d1e7dd !important;
+}
+
+.bg-danger-subtle {
+    background-color: #f8d7da !important;
+}
+
+.text-info {
+    color: #055160 !important;
+}
+
+.text-success {
+    color: #0f5132 !important;
+}
+
+.text-danger {
+    color: #842029 !important;
+}
+
+.table thead th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}

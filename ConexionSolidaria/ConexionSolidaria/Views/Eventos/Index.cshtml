@@ -1,0 +1,137 @@
+﻿@model List<ConexionSolidaria.ViewModels.EventoListadoVM>
+@{
+    ViewData["Title"] = "Eventos";
+    var rol = Context.Session.GetString("Rol");
+}
+
+<div class="container-fluid eventos-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-dark fw-bold mb-0">
+            <i class="fas fa-calendar-check text-primary me-2"></i>Listado de Eventos
+        </h2>
+
+        @if (rol == "Coordinador")
+        {
+            <a asp-action="Crear" class="btn btn-primary btn-hover shadow-sm">
+                <i class="fas fa-plus me-1"></i> Nuevo Evento
+            </a>
+        }
+    </div>
+
+    <div class="card table-eventos-card border-0 shadow-sm">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-modern table-hover align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th class="ps-4">Información</th>
+                            <th style="min-width: 250px;">Ubicación</th>
+                            <th class="text-center">Cupo</th>
+                            <th class="text-center">Estado</th>
+                            <th class="text-end pe-4">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var e in Model)
+                        {
+                            <tr>
+                                <td class="ps-4">
+                                    <span class="text-event-title d-block">@e.Nombre</span>
+                                    <small class="text-muted">ID: #@e.EventoID</small>
+                                </td>
+                                <td>
+                                    <div class="d-flex flex-column">
+                                        <span class="small fw-bold text-dark mb-1">
+                                            <i class="far fa-calendar-alt me-1 text-primary"></i>@e.Fecha.ToString("dd/MM/yyyy")
+                                        </span>
+                                        <span class="small text-muted text-wrap">
+                                            <i class="fas fa-map-marker-alt me-1 text-danger"></i>@e.Lugar
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style="min-width: 130px;">
+                                    @{
+                                        var porc = (e.CupoMaximo > 0) ? (100 - (e.CupoDisponible * 100 / e.CupoMaximo)) : 0;
+                                        var colorBar = porc > 85 ? "bg-danger" : (porc > 50 ? "bg-warning" : "bg-success");
+                                    }
+                                    <div class="progress progress-mini mx-auto">
+                                        <div class="progress-bar @colorBar" style="width: @porc%"></div>
+                                    </div>
+                                    <div class="text-center small fw-bold mt-1">
+                                        @e.CupoDisponible <span class="text-muted fw-normal">/ @e.CupoMaximo</span>
+                                    </div>
+                                </td>
+                                <td class="text-center">
+                                    @switch (e.EstadoID)
+                                    {
+                                        case 1:
+                                            <span class="badge badge-soft badge-soft-success"><i class="fas fa-clock me-1"></i>Programado</span>
+                                            break;
+                                        case 2:
+                                            <span class="badge badge-soft badge-soft-info"><i class="fas fa-check me-1"></i>Realizado</span>
+                                            break;
+                                        case 3:
+                                            <span class="badge badge-soft badge-soft-danger"><i class="fas fa-ban me-1"></i>Cancelado</span>
+                                            break;
+                                        default:
+                                            <span class="badge badge-soft badge-soft-secondary">@e.EstadoID</span>
+                                            break;
+                                    }
+                                </td>
+                                <td class="text-end pe-4">
+                                    @if (rol == "Coordinador")
+                                    {
+                                        @if (e.EstadoID == 1)
+                                        {
+                                            <a asp-action="Editar" asp-route-id="@e.EventoID" class="btn btn-sm btn-outline-warning btn-hover me-1" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-sm btn-outline-secondary disabled" title="No editable">
+                                                <i class="fas fa-lock"></i>
+                                            </button>
+                                        }
+                                    }
+
+                                    @if (rol == "Voluntario")
+                                    {
+                                        if (e.EstaInscrito)
+                                        {
+                                            <span class="badge bg-light text-success border p-2">
+                                                <i class="fas fa-user-check me-1"></i> Inscrito
+                                            </span>
+                                        }
+                                        else if (e.EstadoID == 1 && e.CupoDisponible > 0)
+                                        {
+                                            <form asp-controller="Inscripciones" asp-action="Inscribirse" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="eventoId" value="@e.EventoID" />
+                                                <button type="button" class="btn btn-sm btn-success btn-hover btn-confirmar">
+                                                    <i class="fas fa-user-plus me-1"></i> Inscribirse
+                                                </button>
+                                            </form>
+                                        }
+                                        else if (e.CupoDisponible <= 0)
+                                        {
+                                            <span class="badge bg-light text-muted border p-2">Agotado</span>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.mensajeExito = '@Html.Raw(TempData["Exito"])';
+        window.mensajeError = '@Html.Raw(TempData["Error"])';
+    </script>
+    <script src="~/js/eventos.js" asp-append-version="true"></script>
+}

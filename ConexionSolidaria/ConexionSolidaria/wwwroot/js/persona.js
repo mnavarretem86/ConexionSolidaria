@@ -1,6 +1,4 @@
-﻿// ===============================
-// ABRIR MODAL EDITAR
-// ===============================
+﻿
 function abrirEditar(btn) {
     const form = document.getElementById("formEditar");
 
@@ -19,9 +17,6 @@ function abrirEditar(btn) {
     new bootstrap.Modal(document.getElementById("modalEditar")).show();
 }
 
-// ===============================
-// CREAR PERSONA
-// ===============================
 $(document).ready(function () {
 
     $("#formCrear").on("submit", function (e) {
@@ -41,9 +36,6 @@ $(document).ready(function () {
             });
     });
 
-    // ===============================
-    // EDITAR PERSONA
-    // ===============================
     $("#formEditar").on("submit", function (e) {
         e.preventDefault();
 

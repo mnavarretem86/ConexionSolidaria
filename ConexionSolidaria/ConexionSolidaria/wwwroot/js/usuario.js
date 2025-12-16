@@ -31,10 +31,6 @@
             });
     });
 });
-
-/* =========================
-   MODAL EDITAR
-========================= */
 function abrirEditar(btn) {
 
     const form = document.getElementById("formEditar");
@@ -46,10 +42,6 @@ function abrirEditar(btn) {
 
     new bootstrap.Modal(document.getElementById("modalEditar")).show();
 }
-
-/* =========================
-   ROLES
-========================= */
 function cargarRoles(callback) {
 
     $.get("/Usuario/ObtenerRoles")
@@ -63,7 +55,6 @@ function cargarRoles(callback) {
                 select.append(`<option value="">Seleccione</option>`);
 
                 data.forEach(r => {
-                    // CORRECCIÓN de Casing: Usar camelCase (rolID, nombreRol)
                     select.append(
                         `<option value="${r.rolID}">${r.nombreRol}</option>`
                     );
@@ -74,13 +65,8 @@ function cargarRoles(callback) {
         })
         .fail(() => toastr.error("No se pudieron cargar los roles"));
 }
-
-/* =========================
-   PERSONAS SIN USUARIO
-========================= */
 function cargarPersonas() {
 
-    // CORRECCIÓN DE RUTA: Apunta a /Usuario/PersonasSinUsuario
     $.get("/Usuario/PersonasSinUsuario")
         .done(function (data) {
 
@@ -89,13 +75,10 @@ function cargarPersonas() {
             select.append(`<option value="">Seleccione una persona</option>`);
 
             data.forEach(p => {
-                // CORRECCIÓN de Casing: Usar camelCase (personaID, nombreCompleto)
                 select.append(
                     `<option value="${p.personaID}">${p.nombreCompleto}</option>`
                 );
             });
-
-            // Añadir mensaje si la lista está vacía
             if (data.length === 0) {
                 select.append(`<option value="" disabled>Todas las personas ya tienen usuario.</option>`);
             }

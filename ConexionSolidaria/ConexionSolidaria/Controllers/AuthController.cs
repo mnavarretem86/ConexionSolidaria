@@ -32,6 +32,7 @@ public class AuthController : Controller
 
             reader.Read();
             HttpContext.Session.SetInt32("UsuarioID", reader.GetInt32(0));
+            HttpContext.Session.SetInt32("VoluntarioID", reader.GetInt32(1));
             HttpContext.Session.SetString("Nombre", reader.GetString(2));
             HttpContext.Session.SetString("Rol", reader.GetString(5));
 

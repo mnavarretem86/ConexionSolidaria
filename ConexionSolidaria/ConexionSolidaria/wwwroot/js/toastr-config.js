@@ -1,5 +1,4 @@
-﻿// Configuración global de Toastr
-toastr.options = {
+﻿toastr.options = {
     closeButton: true,
     progressBar: true,
     positionClass: "toast-top-right",

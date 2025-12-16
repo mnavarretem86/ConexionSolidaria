@@ -26,10 +26,6 @@ namespace ConexionSolidaria.Controllers
         {
             return HttpContext.Session.GetString("Rol") == "Coordinador";
         }
-
-        /* =====================================================
-           LISTADO
-        ===================================================== */
         public IActionResult Index()
         {
             if (!EsCoordinador())
@@ -68,16 +64,12 @@ namespace ConexionSolidaria.Controllers
             return View(lista);
         }
 
-        /* =====================================================
-           CREAR
-        ===================================================== */
         [HttpPost]
         public IActionResult Crear(PersonaViewModel model)
         {
             if (!EsCoordinador())
                 return Unauthorized();
 
-            // 🔥 DEVOLVER ERRORES REALES
             if (!ModelState.IsValid)
             {
                 var errores = string.Join(" | ",
@@ -118,10 +110,6 @@ namespace ConexionSolidaria.Controllers
 
             return Ok("Persona creada correctamente");
         }
-
-        /* =====================================================
-           EDITAR
-        ===================================================== */
         [HttpPost]
         public IActionResult Editar(PersonaViewModel model)
         {
@@ -172,10 +160,6 @@ namespace ConexionSolidaria.Controllers
 
             return Ok("Persona actualizada correctamente");
         }
-
-        /* =====================================================
-           UTILIDAD
-        ===================================================== */
         private bool TieneColumna(SqlDataReader reader, string columnName)
         {
             for (int i = 0; i < reader.FieldCount; i++)

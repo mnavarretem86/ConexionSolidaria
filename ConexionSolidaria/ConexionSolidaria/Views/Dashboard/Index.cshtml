@@ -1,0 +1,170 @@
+﻿@model ConexionSolidaria.ViewModels.DashboardVM
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid py-4">
+
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-5 gap-3" data-aos="fade-down">
+        <div>
+            <h2 class="fw-bold text-dark mb-1">
+                <i class="fa-solid fa-chart-line me-2 text-primary"></i>Panel de Control
+            </h2>
+            <p class="text-muted mb-0">Bienvenido al resumen operativo de Conexion Solidaria.</p>
+        </div>
+        <div class="bg-white px-4 py-2 rounded-pill shadow-sm border">
+            <span class="text-muted small fw-bold text-uppercase ls-1">
+                <i class="fa-solid fa-clock me-1 text-primary"></i>
+                Corte: @DateTime.Now.ToString("dd MMM yyyy, HH:mm")
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-4 mb-5" data-aos="fade-up">
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body position-relative">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 bg-primary bg-gradient text-white rounded-4 p-3 shadow">
+                            <i class="fa-solid fa-calendar-check fs-3"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted small fw-bold text-uppercase mb-1">Eventos Totales</h6>
+                            <h2 class="fw-bold mb-0">@Model.Eventos.Count</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 bg-success bg-gradient text-white rounded-4 p-3 shadow">
+                            <i class="fa-solid fa-user-check fs-3"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted small fw-bold text-uppercase mb-1">Inscripciones</h6>
+                            <h2 class="fw-bold mb-0">@Model.Eventos.Sum(e => e.TotalInscritos)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 bg-warning bg-gradient text-dark rounded-4 p-3 shadow">
+                            <i class="fa-solid fa-door-open fs-3"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted small fw-bold text-uppercase mb-1">Cupos Libres</h6>
+                            <h2 class="fw-bold mb-0">@Model.Eventos.Sum(e => e.CupoDisponible)</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-xl-3">
+            <div class="card border-0 shadow-sm h-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0 bg-info bg-gradient text-white rounded-4 p-3 shadow">
+                            <i class="fa-solid fa-bolt fs-3"></i>
+                        </div>
+                        <div class="flex-grow-1 ms-3">
+                            <h6 class="text-muted small fw-bold text-uppercase mb-1">Activos</h6>
+                            <h2 class="fw-bold mb-0">@Model.Eventos.Count(e => e.EstadoEvento == "Programado")</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-lg-7" data-aos="fade-right">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3 d-flex align-items-center">
+                    <i class="fa-solid fa-list-check text-primary me-2"></i>
+                    <h5 class="fw-bold mb-0">Estado de Eventos</h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="border-0 ps-3">Evento</th>
+                                <th class="border-0 text-center">Inscritos</th>
+                                <th class="border-0">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var e in Model.Eventos)
+                            {
+                                <tr>
+                                    <td class="ps-3">
+                                        <div class="fw-bold text-dark">@e.Nombre</div>
+                                        <small class="text-muted"><i class="fa-solid fa-location-dot me-1"></i> @e.Lugar</small>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="fw-bold">@e.TotalInscritos / @e.CupoMaximo</div>
+                                        <div class="progress mt-1" style="height: 5px;">
+                                            @{
+                                                var porcentaje = (e.TotalInscritos * 100) / (e.CupoMaximo > 0 ? e.CupoMaximo : 1);
+                                            }
+                                            <div class="progress-bar bg-success" style="width: @porcentaje%"></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill @(e.EstadoEvento == "Programado" ? "bg-info" : e.EstadoEvento == "Realizado" ? "bg-success" : "bg-danger") px-3">
+                                            @e.EstadoEvento
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5" data-aos="fade-left">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-header bg-white border-0 py-3 d-flex align-items-center">
+                    <i class="fa-solid fa-user-clock text-primary me-2"></i>
+                    <h5 class="fw-bold mb-0">Inscripciones Recientes</h5>
+                </div>
+                <div class="card-body p-0">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var i in Model.Inscripciones.Take(5))
+                        {
+                            <li class="list-group-item border-0 py-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-light rounded-circle p-2 me-3">
+                                        <i class="fa-solid fa-user text-muted"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <div class="fw-bold text-dark mb-0">@i.NombreVoluntario</div>
+                                        <small class="text-muted">En: @i.Evento</small>
+                                    </div>
+                                    <div class="text-end text-muted small">
+                                        @i.FechaInscripcion.ToString("dd MMM")
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="card-footer bg-white border-0 text-center py-3">
+                    <a href="#" class="text-decoration-none small fw-bold">Ver todas las inscripciones <i class="fa-solid fa-chevron-right ms-1"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

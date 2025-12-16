@@ -1,245 +1,211 @@
-﻿@using Microsoft.AspNetCore.Http
-
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ConexionSolidaria</title>
 
-    <!-- Bootstrap -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ConexionSolidaria.styles.css" asp-append-version="true" />
 
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-
-
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
-
-    <!-- Estilos -->
-    <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/ConexionSolidaria.styles.css" />
+    @await RenderSectionAsync("Styles", required: false)
 </head>
 
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
 
-    <!-- NAVBAR -->
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm">
-            <div class="container-fluid">
-
-                <!-- Logo -->
-                <a class="navbar-brand fw-bold text-primary"
-                   asp-controller="Dashboard"
-                   asp-action="Index">
-                    <i class="bi bi-heart-pulse-fill me-1"></i> ConexionSolidaria
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm py-3">
+            <div class="container">
+                <a class="navbar-brand fw-bold text-primary fs-4" asp-controller="Home" asp-action="Index">
+                    <i class="bi bi-heart-pulse-fill me-1"></i> Conexion Solidaria
                 </a>
 
-                <!-- Toggle -->
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Menú -->
                 <div class="collapse navbar-collapse" id="mainNavbar">
-
-                    <!-- Menú izquierdo -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Dashboard"
-                               asp-action="Index">
-                                <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a class="nav-link"
-                               asp-controller="Eventos"
-                               asp-action="Index">
-                                <i class="bi bi-calendar-event me-1"></i> Eventos
-                            </a>
-                        </li>
-
-                        @if (Context.Session.GetString("Rol") == "Coordinador")
+                        @if (Context.Session.GetInt32("UsuarioID") != null)
                         {
-                            <!-- IAM SOLO COMO MENÚ -->
+                            var rol = Context.Session.GetString("Rol");
+
+                            @if (rol == "Coordinador")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link fw-semibold text-dark" asp-controller="Dashboard" asp-action="Index">
+                                        <i class="bi bi-speedometer2 me-1 text-primary"></i> Dashboard
+                                    </a>
+                                </li>
+                            }
+
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle"
-                                   href="#"
-                                   role="button"
-                                   data-bs-toggle="dropdown">
-                                    <i class="bi bi-shield-lock me-1"></i> IAM
+                                <a class="nav-link dropdown-toggle fw-semibold text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-calendar-event me-1 text-primary"></i> Eventos
                                 </a>
+                                <ul class="dropdown-menu shadow border-0 mt-2">
+                                    <li><a class="dropdown-item py-2" asp-controller="Eventos" asp-action="Index"><i class="bi bi-list-ul me-2"></i> Listado de eventos</a></li>
 
-                                <ul class="dropdown-menu shadow-sm">
-                                    <li>
-                                        <a class="dropdown-item"
-                                           asp-controller="Persona"
-                                           asp-action="Index">
-                                            <i class="bi bi-people me-2"></i> Personas
-                                        </a>
-                                    </li>
+                                    @if (rol == "Coordinador")
+                                    {
+                                        <li><a class="dropdown-item py-2" asp-controller="Eventos" asp-action="Crear"><i class="bi bi-plus-circle me-2"></i> Crear evento</a></li>
+                                    }
 
-                                    <li>
-                                        <a class="dropdown-item"
-                                           asp-controller="Usuario"
-                                           asp-action="Index">
-                                            <i class="bi bi-person-badge me-2"></i> Usuarios
-                                        </a>
-                                    </li>
+                                    @if (rol == "Voluntario")
+                                    {
+                                        <li><a class="dropdown-item py-2" asp-controller="Inscripciones" asp-action="MisInscripciones"><i class="bi bi-check2-square me-2"></i> Mis inscripciones</a></li>
+                                    }
                                 </ul>
                             </li>
+
+                            @if (rol == "Coordinador")
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-semibold text-dark" href="#" role="button" data-bs-toggle="dropdown">
+                                        <i class="bi bi-shield-lock me-1 text-primary"></i> IAM
+                                    </a>
+                                    <ul class="dropdown-menu shadow border-0 mt-2">
+                                        <li><a class="dropdown-item py-2" asp-controller="Persona" asp-action="Index"><i class="bi bi-people me-2"></i> Personas</a></li>
+                                        <li><a class="dropdown-item py-2" asp-controller="Usuario" asp-action="Index"><i class="bi bi-person-badge me-2"></i> Usuarios</a></li>
+                                    </ul>
+                                </li>
+                            }
                         }
                     </ul>
 
-                    <!-- Zona derecha -->
-                    <ul class="navbar-nav">
-
+                    <ul class="navbar-nav align-items-center">
                         @if (Context.Session.GetInt32("UsuarioID") == null)
                         {
-                            <!-- LOGIN -->
                             <li class="nav-item">
-                                <button class="btn btn-outline-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#loginModal">
-                                    <i class="bi bi-box-arrow-in-right me-1"></i> Login
+                                <button class="btn btn-primary px-4 rounded-pill shadow-sm" data-bs-toggle="modal" data-bs-target="#loginModal">
+                                    <i class="bi bi-box-arrow-in-right me-1"></i> Iniciar Sesión
                                 </button>
                             </li>
                         }
                         else
                         {
-                            <!-- USUARIO LOGUEADO -->
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle fw-semibold"
-                                   href="#"
-                                   role="button"
-                                   data-bs-toggle="dropdown">
-                                    <i class="bi bi-person-circle me-1"></i>
+                                <a class="nav-link dropdown-toggle fw-bold text-primary d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                    <div class="bg-primary text-white rounded-circle me-2 d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">
+                                        <i class="bi bi-person-fill small"></i>
+                                    </div>
                                     @Context.Session.GetString("Nombre")
                                 </a>
-
-                                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                                    <li class="dropdown-header text-muted">
-                                        Rol: @Context.Session.GetString("Rol")
+                                <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+                                    <li class="dropdown-header">
+                                        <small class="text-uppercase text-muted fw-bold">Rol actual</small><br />
+                                        <span class="badge bg-info text-dark">@Context.Session.GetString("Rol")</span>
                                     </li>
                                     <li><hr class="dropdown-divider" /></li>
                                     <li>
-                                        <form asp-controller="Auth"
-                                              asp-action="Logout"
-                                              method="post">
-                                            <button class="dropdown-item text-danger">
-                                                <i class="bi bi-box-arrow-right me-1"></i>
-                                                Cerrar sesión
+                                        <form asp-controller="Auth" asp-action="Logout" method="post">
+                                            <button class="dropdown-item text-danger py-2 w-100 text-start border-0 bg-transparent">
+                                                <i class="bi bi-box-arrow-right me-1"></i> Cerrar sesión
                                             </button>
                                         </form>
                                     </li>
                                 </ul>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
 
-    <!-- CONTENIDO -->
-    <main class="container py-4">
+    <main role="main" class="main-content container py-4">
         @RenderBody()
     </main>
 
-    <!-- FOOTER -->
-    <footer class="border-top text-center text-muted py-3 small">
-        &copy; 2025 - ConexionSolidaria
+    <footer class="footer-udem mt-auto py-5 shadow-lg">
+        <div class="container">
+            <div class="row align-items-center text-center text-md-start">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="fw-bold text-primary mb-1">Conexion Solidaria</h5>
+                    <p class="text-muted small mb-0">Plataforma de Voluntariado Universitario</p>
+                    <div class="mt-2 fw-bold text-dark">UdeM - Universidad de Managua</div>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0 text-center">
+                    <div class="d-flex justify-content-center gap-4">
+                        <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center text-md-end">
+                    <p class="mb-0 text-muted small">&copy; 2025 - Todos los derechos reservados.</p>
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3">Ingeniería en Sistemas</span>
+                </div>
+            </div>
+        </div>
     </footer>
 
-    <!-- MODAL LOGIN -->
     <div class="modal fade" id="loginModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow">
-
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        <i class="bi bi-person-lock me-1"></i> Iniciar Sesión
+            <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="modal-header bg-primary text-white py-4">
+                    <h5 class="modal-title fw-bold mx-auto">
+                        <i class="fa-solid fa-user-lock me-2"></i> Acceso al Sistema
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white position-absolute end-0 me-3" data-bs-dismiss="modal"></button>
                 </div>
-
-                <div class="modal-body">
-
+                <div class="modal-body p-4 p-md-5">
                     <div id="loginMessage" class="alert d-none"></div>
-
                     <form id="loginForm">
-
-                        <div class="mb-3">
-                            <label class="form-label">Correo</label>
-                            <input type="email"
-                                   id="loginEmail"
-                                   class="form-control"
-                                   required />
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-muted">Correo institucional</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light rounded-start-pill">
+                                    <i class="fa-solid fa-envelope text-primary"></i>
+                                </span>
+                                <input type="email" id="loginEmail" class="form-control rounded-end-pill" placeholder="usuario@udem.edu.ni" required />
+                            </div>
                         </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Contraseña</label>
-                            <div class="input-group">
-                                <input type="password"
-                                       id="loginPassword"
-                                       class="form-control"
-                                       required />
-                                <button type="button"
-                                        class="btn btn-outline-secondary"
-                                        onclick="togglePassword()">
-                                    <i class="bi bi-eye"></i>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold text-muted">Contraseña</label>
+                            <div class="input-group input-group-lg">
+                                <span class="input-group-text bg-light rounded-start-pill">
+                                    <i class="fa-solid fa-lock text-primary"></i>
+                                </span>
+                                <input type="password" id="loginPassword" class="form-control" required />
+                                <button type="button" class="btn btn-outline-secondary rounded-end-pill" onclick="togglePassword()">
+                                    <i class="fa-solid fa-eye"></i>
                                 </button>
                             </div>
                         </div>
-
-                        <button type="submit"
-                                class="btn btn-primary w-100">
-                            <i class="bi bi-box-arrow-in-right me-1"></i>
-                            Ingresar
+                        <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow-sm">
+                            <i class="fa-solid fa-right-to-bracket me-2"></i> Ingresar
                         </button>
-
                     </form>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="~/js/site.js"></script>
     <script src="~/js/auth.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        toastr.options = {
-            closeButton: true,
-            progressBar: true,
-            positionClass: "toast-top-right",
-            timeOut: "3000"
-        };
-    </script>
-
-
-
-    <script>
+        toastr.options = { closeButton: true, progressBar: true, positionClass: "toast-top-right", timeOut: "3000" };
         function togglePassword() {
             const input = document.getElementById("loginPassword");
             input.type = input.type === "password" ? "text" : "password";
         }
+        AOS.init({ duration: 800, once: true });
     </script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

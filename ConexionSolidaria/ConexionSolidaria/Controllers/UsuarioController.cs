@@ -26,9 +26,6 @@ namespace ConexionSolidaria.Controllers
             return HttpContext.Session.GetString("Rol") == "Coordinador";
         }
 
-        /* =====================================================
-           LISTADO
-        ===================================================== */
         public IActionResult Index()
         {
             if (!EsCoordinador())
@@ -61,9 +58,6 @@ namespace ConexionSolidaria.Controllers
             return View(lista);
         }
 
-        /* =====================================================
-           PERSONAS SIN USUARIO (SP)
-        ===================================================== */
         [HttpGet]
         public IActionResult PersonasSinUsuario()
         {
@@ -92,9 +86,6 @@ namespace ConexionSolidaria.Controllers
             return Json(personas);
         }
 
-        /* =====================================================
-           CREAR
-        ===================================================== */
         [HttpPost]
         public IActionResult Crear(UsuarioViewModel model)
         {
@@ -129,9 +120,6 @@ namespace ConexionSolidaria.Controllers
             return Ok("Usuario creado correctamente");
         }
 
-        /* =====================================================
-           EDITAR
-        ===================================================== */
         [HttpPost]
         public IActionResult Editar(UsuarioViewModel model)
         {
@@ -165,9 +153,6 @@ namespace ConexionSolidaria.Controllers
             return Ok("Usuario actualizado correctamente");
         }
 
-        /* =====================================================
-           ROLES
-        ===================================================== */
         [HttpGet]
         public IActionResult ObtenerRoles()
         {
@@ -196,10 +181,6 @@ namespace ConexionSolidaria.Controllers
 
             return Json(roles);
         }
-
-        /* =====================================================
-           UTILIDAD
-        ===================================================== */
         private bool TieneColumna(SqlDataReader reader, string columnName)
         {
             for (int i = 0; i < reader.FieldCount; i++)

@@ -1,0 +1,85 @@
+﻿.eventos-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.table-eventos-card {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.table-modern thead th {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 1rem;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.text-event-title {
+    color: #2d3436;
+    font-weight: 700;
+    display: block;
+    font-size: 1.05rem;
+}
+
+.text-location-wrap {
+    white-space: normal !important; 
+    word-break: break-word;
+    line-height: 1.4;
+    display: block;
+    min-width: 200px; 
+}
+
+.badge-soft {
+    font-weight: 600;
+    padding: 0.5em 1em;
+    border-radius: 50rem;
+    display: inline-flex;
+    align-items: center;
+}
+
+.badge-soft-info {
+    background-color: #e0f7fa;
+    color: #00acc1;
+    border: 1px solid #b2ebf2;
+}
+
+.badge-soft-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
+}
+
+.badge-soft-danger {
+    background-color: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+
+
+.progress-mini {
+    height: 6px;
+    border-radius: 10px;
+    background-color: #e9ecef;
+    margin-bottom: 4px;
+    width: 100%;
+}
+
+.btn-hover {
+    transition: all 0.2s ease;
+}
+
+    .btn-hover:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+.fs-xs {
+    font-size: 0.85rem;
+}
