@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+//Se agrega comentario
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
