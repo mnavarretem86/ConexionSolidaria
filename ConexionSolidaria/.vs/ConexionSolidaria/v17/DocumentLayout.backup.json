@@ -1,37 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\mnavarrete\\Desktop\\UdeM\\ConexionSolidaria\\ConexionSolidaria\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|c:\\users\\mnavarrete\\desktop\\udem\\conexionsolidaria\\conexionsolidaria\\conexionsolidaria\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{1BFEF1D6-1FD1-40D9-8F7E-2E1400A05C11}|ConexionSolidaria\\ConexionSolidaria.csproj|solutionrelative:conexionsolidaria\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 0,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "C:\\Users\\mnavarrete\\Desktop\\UdeM\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "ConexionSolidaria\\Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "C:\\Users\\mnavarrete\\Desktop\\UdeM\\ConexionSolidaria\\ConexionSolidaria\\ConexionSolidaria\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "ConexionSolidaria\\Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-09T21:02:23.828Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

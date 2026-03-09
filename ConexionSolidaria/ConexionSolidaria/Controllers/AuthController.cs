@@ -33,15 +33,23 @@ public class AuthController : Controller
             reader.Read();
 
             int usuarioID = reader.GetInt32(0);
-            int voluntarioID = reader.GetInt32(1);
+
+            int? voluntarioID = reader.IsDBNull(1)
+                ? null
+                : reader.GetInt32(1);
+
             string nombre = reader.GetString(2);
             string rol = reader.GetString(5);
 
             bool debeCambiarPassword = reader.GetBoolean(6);
 
-            //Guardar sesión
             HttpContext.Session.SetInt32("UsuarioID", usuarioID);
-            HttpContext.Session.SetInt32("VoluntarioID", voluntarioID);
+
+            if (voluntarioID != null)
+            {
+                HttpContext.Session.SetInt32("VoluntarioID", voluntarioID.Value);
+            }
+
             HttpContext.Session.SetString("Nombre", nombre);
             HttpContext.Session.SetString("Rol", rol);
             HttpContext.Session.SetInt32("DebeCambiarPassword", debeCambiarPassword ? 1 : 0);
