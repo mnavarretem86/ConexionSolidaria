@@ -52,3 +52,30 @@ body {
     letter-spacing: 0.5px;
     color: #6c757d;
 }
+
+
+.hover-elevate {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .hover-elevate:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15) !important;
+    }
+
+.avatar-circle {
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.table-custom-hover tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+    .table-custom-hover tbody tr:hover {
+        background-color: #f8f9fa;
+    }
