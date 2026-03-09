@@ -1,0 +1,98 @@
+﻿@model ConexionSolidaria.Models.PersonaViewModel
+
+@{
+    ViewData["Title"] = "Registro de Voluntario";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="fw-bold text-dark m-0">
+                <i class="fa-solid fa-user-plus text-primary me-2"></i>
+                Registro de Voluntario
+            </h3>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+
+                <form id="formRegistro">
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Nombre</label>
+                            <input class="form-control bg-light" name="PrimerNombre" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Nombre</label>
+                            <input class="form-control bg-light" name="SegundoNombre" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Primer Apellido</label>
+                            <input class="form-control bg-light" name="PrimerApellido" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Segundo Apellido</label>
+                            <input class="form-control bg-light" name="SegundoApellido" />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">DNI</label>
+                            <input class="form-control bg-light" name="DNI" required />
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Género</label>
+                            <select class="form-select bg-light" name="Genero" required>
+                                <option value="">Seleccione</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Fecha Nacimiento</label>
+                            <input type="date" class="form-control bg-light" name="FechaNacimiento" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Correo Electrónico</label>
+                            <input type="email" class="form-control bg-light" name="Email" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Teléfono</label>
+                            <input class="form-control bg-light" name="Telefono" />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Dirección de Domicilio</label>
+                            <textarea class="form-control bg-light" name="Direccion" rows="2"></textarea>
+                        </div>
+
+                    </div>
+
+                    <div class="d-flex justify-content-end mt-4">
+
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="fa-solid fa-user-check me-2"></i>
+                            Registrarme
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts {
+    <script src="~/js/registro.js"></script>
+}
