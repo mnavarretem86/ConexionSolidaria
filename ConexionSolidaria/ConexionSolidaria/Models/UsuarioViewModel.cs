@@ -21,6 +21,8 @@ namespace ConexionSolidaria.Models
 
         public int EstadoID { get; set; } = 1;
 
+        public bool DebeCambiarPassword { get; set; } = false;
+
         [NotMapped]
         [ValidateNever]
         public string? NombreCompleto { get; set; }

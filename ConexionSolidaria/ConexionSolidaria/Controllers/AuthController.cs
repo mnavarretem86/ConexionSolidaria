@@ -1,4 +1,3 @@
-//Se agrega comentario
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -32,10 +31,26 @@ public class AuthController : Controller
             }
 
             reader.Read();
-            HttpContext.Session.SetInt32("UsuarioID", reader.GetInt32(0));
-            HttpContext.Session.SetInt32("VoluntarioID", reader.GetInt32(1));
-            HttpContext.Session.SetString("Nombre", reader.GetString(2));
-            HttpContext.Session.SetString("Rol", reader.GetString(5));
+
+            int usuarioID = reader.GetInt32(0);
+            int voluntarioID = reader.GetInt32(1);
+            string nombre = reader.GetString(2);
+            string rol = reader.GetString(5);
+
+            bool debeCambiarPassword = reader.GetBoolean(6);
+
+            //Guardar sesión
+            HttpContext.Session.SetInt32("UsuarioID", usuarioID);
+            HttpContext.Session.SetInt32("VoluntarioID", voluntarioID);
+            HttpContext.Session.SetString("Nombre", nombre);
+            HttpContext.Session.SetString("Rol", rol);
+            HttpContext.Session.SetInt32("DebeCambiarPassword", debeCambiarPassword ? 1 : 0);
+
+            //Si tiene contraseña temporal
+            if (debeCambiarPassword)
+            {
+                return Json(new { success = true, cambiarPassword = true });
+            }
 
             return Json(new { success = true });
         }
@@ -48,6 +63,53 @@ public class AuthController : Controller
             _connection.Close();
         }
     }
+
+
+    [HttpGet]
+    public IActionResult CambiarPassword()
+    {
+        if (HttpContext.Session.GetInt32("UsuarioID") == null)
+        {
+            return RedirectToAction("Index", "Home");
+        }
+
+        return View();
+    }
+
+
+    [HttpPost]
+    public IActionResult CambiarPassword(string nuevaPassword)
+    {
+        try
+        {
+            int usuarioID = HttpContext.Session.GetInt32("UsuarioID").Value;
+
+            _connection.Open();
+
+            SqlCommand cmd = new SqlCommand(
+                "UPDATE Usuario SET Contrasena=@pass, DebeCambiarPassword=0 WHERE UsuarioID=@id",
+                _connection
+            );
+
+            cmd.Parameters.AddWithValue("@pass", nuevaPassword);
+            cmd.Parameters.AddWithValue("@id", usuarioID);
+
+            cmd.ExecuteNonQuery();
+
+            HttpContext.Session.SetInt32("DebeCambiarPassword", 0);
+
+            return Json(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            return Json(new { success = false, message = ex.Message });
+        }
+        finally
+        {
+            _connection.Close();
+        }
+    }
+
 
     public IActionResult Logout()
     {
