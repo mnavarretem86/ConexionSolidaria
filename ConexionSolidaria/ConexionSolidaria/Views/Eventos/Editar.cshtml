@@ -6,6 +6,7 @@
 
 <div class="row justify-content-center mt-4 mb-5">
     <div class="col-md-10 col-lg-8">
+
         <div class="mb-3">
             <a asp-action="Index" class="text-decoration-none text-muted small fw-bold">
                 <i class="fa-solid fa-chevron-left me-1"></i> Volver al listado
@@ -13,7 +14,7 @@
         </div>
 
         <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-            @* Encabezado de la Tarjeta - Color warning para indicar edición *@
+
             <div class="card-header bg-warning py-4 px-4 border-0">
                 <div class="d-flex align-items-center">
                     <div class="bg-dark bg-opacity-10 rounded-circle p-3 me-3 text-dark">
@@ -27,98 +28,185 @@
             </div>
 
             <div class="card-body p-4 p-md-5 bg-white">
+
                 <form asp-action="Editar" method="post">
+
                     @Html.AntiForgeryToken()
                     <input type="hidden" asp-for="EventoID" />
 
                     <div class="row g-4">
+
                         <div class="col-12">
                             <label class="form-label fw-bold text-dark small uppercase">Nombre del Evento</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-warning">
                                     <i class="fa-solid fa-heading"></i>
                                 </span>
-                                <input asp-for="Nombre" class="form-control form-control-lg bg-light border-start-0 fs-6"
-                                       placeholder="Ej: Colecta anual de alimentos" required />
+
+                                <input asp-for="Nombre"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       placeholder="Ej: Jornada de Reforestación"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Nombre" class="text-danger small"></span>
                         </div>
 
+
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-dark small uppercase">Fecha de Realización</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-warning">
                                     <i class="fa-solid fa-calendar-day"></i>
                                 </span>
-                                <input asp-for="Fecha" type="date" class="form-control form-control-lg bg-light border-start-0 fs-6" required />
+
+                                <input asp-for="Fecha"
+                                       type="date"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Fecha" class="text-danger small"></span>
                         </div>
 
+
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-dark small uppercase">Cupo Máximo</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-warning">
-                                    <i class="fa-solid fa-users-rectangle"></i>
+                                    <i class="fa-solid fa-users"></i>
                                 </span>
-                                <input asp-for="CupoMaximo" type="number" min="1" class="form-control form-control-lg bg-light border-start-0 fs-6" required />
+
+                                <input asp-for="CupoMaximo"
+                                       type="number"
+                                       min="1"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
                             </div>
+
                             <span asp-validation-for="CupoMaximo" class="text-danger small"></span>
                         </div>
 
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small uppercase">Hora de Inicio</label>
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-warning">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+
+                                <input asp-for="HoraInicio"
+                                       type="time"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
+                            </div>
+
+                            <span asp-validation-for="HoraInicio" class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small uppercase">Hora de Finalización</label>
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-warning">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+
+                                <input asp-for="HoraFin"
+                                       type="time"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
+                            </div>
+
+                            <span asp-validation-for="HoraFin" class="text-danger small"></span>
+                        </div>
+
+
                         <div class="col-12">
                             <label class="form-label fw-bold text-dark small uppercase">Lugar / Ubicación</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-warning">
                                     <i class="fa-solid fa-map-location-dot"></i>
                                 </span>
-                                <input asp-for="Lugar" class="form-control form-control-lg bg-light border-start-0 fs-6" required />
+
+                                <input asp-for="Lugar"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Lugar" class="text-danger small"></span>
                         </div>
 
+
                         <div class="col-12">
                             <label class="form-label fw-bold text-dark small uppercase">Estado del Evento</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-warning">
                                     <i class="fa-solid fa-circle-check"></i>
                                 </span>
-                                <select asp-for="EstadoID" class="form-select form-select-lg bg-light border-start-0 fs-6">
+
+                                <select asp-for="EstadoID"
+                                        class="form-select form-select-lg bg-light border-start-0 fs-6">
+
                                     <option value="1">Programado</option>
                                     <option value="2">Realizado</option>
                                     <option value="3">Cancelado</option>
+
                                 </select>
                             </div>
+
                             <span asp-validation-for="EstadoID" class="text-danger small"></span>
                         </div>
+
                     </div>
 
                     <div class="my-5 border-top border-light"></div>
 
                     <div class="d-flex flex-column flex-md-row gap-3 justify-content-end align-items-center">
-                        <a asp-action="Index" class="btn btn-link text-secondary text-decoration-none fw-bold order-2 order-md-1">
+
+                        <a asp-action="Index"
+                           class="btn btn-link text-secondary text-decoration-none fw-bold order-2 order-md-1">
                             Descartar cambios
                         </a>
-                        <button type="submit" class="btn btn-warning btn-lg px-5 fw-bold rounded-pill shadow-sm order-1 order-md-2 text-dark">
-                            <i class="fa-solid fa-arrows-rotate me-2"></i>Actualizar Evento
+
+                        <button type="submit"
+                                class="btn btn-warning btn-lg px-5 fw-bold rounded-pill shadow-sm order-1 order-md-2 text-dark">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i>
+                            Actualizar Evento
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts {
+
+@section Scripts
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
-        // Efecto visual en los inputs al hacer focus
+
         document.querySelectorAll('.input-group').forEach(group => {
+
             const input = group.querySelector('.form-control, .form-select');
+
             input.addEventListener('focus', () => group.classList.add('shadow-sm'));
             input.addEventListener('blur', () => group.classList.remove('shadow-sm'));
+
         });
+
     </script>
 }

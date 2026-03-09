@@ -6,6 +6,7 @@
 
 <div class="row justify-content-center mt-4 mb-5">
     <div class="col-md-10 col-lg-8">
+
         <div class="mb-3">
             <a asp-action="Index" class="text-decoration-none text-muted small fw-bold">
                 <i class="fa-solid fa-chevron-left me-1"></i> Volver al listado
@@ -13,7 +14,7 @@
         </div>
 
         <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
-            @* Encabezado con degradado suave o color sólido de marca *@
+
             <div class="card-header bg-primary text-white py-4 px-4 border-0">
                 <div class="d-flex align-items-center">
                     <div class="bg-white bg-opacity-20 rounded-circle p-3 me-3">
@@ -27,71 +28,147 @@
             </div>
 
             <div class="card-body p-4 p-md-5 bg-white">
+
                 <form asp-action="Crear" method="post">
+
                     @Html.AntiForgeryToken()
 
                     <div class="row g-4">
+
                         <div class="col-12">
                             <label class="form-label fw-bold text-dark small uppercase">Nombre del Evento</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
                                     <i class="fa-solid fa-heading"></i>
                                 </span>
-                                <input asp-for="Nombre" class="form-control form-control-lg bg-light border-start-0 fs-6"
-                                       placeholder="Ej: Colecta anual de alimentos" required />
+
+                                <input asp-for="Nombre"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       placeholder="Ej: Jornada de Reforestación"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Nombre" class="text-danger small"></span>
                         </div>
 
+
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-dark small uppercase">Fecha de Realización</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
                                     <i class="fa-solid fa-calendar-day"></i>
                                 </span>
-                                <input asp-for="Fecha" type="date" class="form-control form-control-lg bg-light border-start-0 fs-6" required />
+
+                                <input asp-for="Fecha"
+                                       type="date"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Fecha" class="text-danger small"></span>
                         </div>
 
+
                         <div class="col-md-6">
                             <label class="form-label fw-bold text-dark small uppercase">Cupo Máximo (Voluntarios)</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
-                                    <i class="fa-solid fa-users-rectangle"></i>
+                                    <i class="fa-solid fa-users"></i>
                                 </span>
-                                <input asp-for="CupoMaximo" type="number" min="1" class="form-control form-control-lg bg-light border-start-0 fs-6"
-                                       placeholder="Cantidad de personas" required />
+
+                                <input asp-for="CupoMaximo"
+                                       type="number"
+                                       min="1"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       placeholder="Cantidad de personas"
+                                       required />
                             </div>
+
                             <span asp-validation-for="CupoMaximo" class="text-danger small"></span>
                         </div>
 
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small uppercase">Hora de Inicio</label>
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+
+                                <input asp-for="HoraInicio"
+                                       type="time"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
+                            </div>
+
+                            <span asp-validation-for="HoraInicio" class="text-danger small"></span>
+                        </div>
+
+
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-dark small uppercase">Hora de Finalización</label>
+
+                            <div class="input-group">
+                                <span class="input-group-text bg-light border-end-0 text-muted">
+                                    <i class="fa-solid fa-clock"></i>
+                                </span>
+
+                                <input asp-for="HoraFin"
+                                       type="time"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       required />
+                            </div>
+
+                            <span asp-validation-for="HoraFin" class="text-danger small"></span>
+                        </div>
+
+
                         <div class="col-12">
                             <label class="form-label fw-bold text-dark small uppercase">Lugar / Ubicación</label>
+
                             <div class="input-group">
                                 <span class="input-group-text bg-light border-end-0 text-muted">
                                     <i class="fa-solid fa-map-location-dot"></i>
                                 </span>
-                                <input asp-for="Lugar" class="form-control form-control-lg bg-light border-start-0 fs-6"
-                                       placeholder="Ej: Salón comunal Barrio Sur" required />
+
+                                <input asp-for="Lugar"
+                                       class="form-control form-control-lg bg-light border-start-0 fs-6"
+                                       placeholder="Ej: Salón comunal Barrio Sur"
+                                       required />
                             </div>
+
                             <span asp-validation-for="Lugar" class="text-danger small"></span>
                         </div>
+
                     </div>
+
 
                     <div class="my-5 border-top border-light"></div>
 
+
                     <div class="d-flex flex-column flex-md-row gap-3 justify-content-end align-items-center">
-                        <a asp-action="Index" class="btn btn-link text-secondary text-decoration-none fw-bold order-2 order-md-1">
+
+                        <a asp-action="Index"
+                           class="btn btn-link text-secondary text-decoration-none fw-bold order-2 order-md-1">
                             Descartar cambios
                         </a>
-                        <button type="submit" class="btn btn-primary btn-lg px-5 fw-bold rounded-pill shadow-sm order-1 order-md-2">
-                            <i class="fa-solid fa-check-circle me-2"></i>Publicar Evento
+
+                        <button type="submit"
+                                class="btn btn-primary btn-lg px-5 fw-bold rounded-pill shadow-sm order-1 order-md-2">
+                            <i class="fa-solid fa-check-circle me-2"></i>
+                            Publicar Evento
                         </button>
+
                     </div>
+
                 </form>
+
             </div>
         </div>
+
 
         <div class="text-center mt-4">
             <p class="text-muted small">
@@ -99,17 +176,32 @@
                 Al publicar este evento, estará disponible para que los voluntarios se inscriban.
             </p>
         </div>
+
     </div>
 </div>
 
+
 @section Scripts {
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
+        window.mensajeExito = '@Html.Raw(TempData["Exito"])';
+        window.mensajeError = '@Html.Raw(TempData["Error"])';
+    </script>
+
+    <script src="~/js/eventos.js"></script>
+
+    <script>
+
         const dateInput = document.querySelector('input[type="date"]');
-        if(dateInput) {
+
+        if (dateInput) {
             dateInput.min = new Date().toISOString().split("T")[0];
         }
+
     </script>
+
 }

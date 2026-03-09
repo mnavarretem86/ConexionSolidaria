@@ -37,6 +37,7 @@ namespace ConexionSolidaria.Controllers
             cmd.CommandType = CommandType.StoredProcedure;
 
             cn.Open();
+
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@Opcion", 1);
 
@@ -49,6 +50,8 @@ namespace ConexionSolidaria.Controllers
                         EventoID = Convert.ToInt32(dr["EventoID"]),
                         Nombre = dr["Nombre"].ToString(),
                         Fecha = Convert.ToDateTime(dr["Fecha"]),
+                        HoraInicio = (TimeSpan)dr["HoraInicio"],
+                        HoraFin = (TimeSpan)dr["HoraFin"],
                         Lugar = dr["Lugar"].ToString(),
                         CupoMaximo = Convert.ToInt32(dr["CupoMaximo"]),
                         CupoDisponible = Convert.ToInt32(dr["CupoDisponible"]),
@@ -57,7 +60,6 @@ namespace ConexionSolidaria.Controllers
                     });
                 }
             }
-
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@Opcion", 2);
 
@@ -70,6 +72,8 @@ namespace ConexionSolidaria.Controllers
                         NombreVoluntario = dr["NombreVoluntario"].ToString(),
                         Evento = dr["Evento"].ToString(),
                         FechaEvento = Convert.ToDateTime(dr["FechaEvento"]),
+                        HoraInicio = (TimeSpan)dr["HoraInicio"],
+                        HoraFin = (TimeSpan)dr["HoraFin"],
                         FechaInscripcion = Convert.ToDateTime(dr["FechaInscripcion"]),
                         EstadoInscripcion = dr["EstadoInscripcion"].ToString()
                     });

@@ -37,6 +37,7 @@
                         @foreach (var e in Model)
                         {
                             var inscritos = e.CupoMaximo - e.CupoDisponible;
+
                             var porcentaje = e.CupoMaximo > 0
                             ? (inscritos * 100 / e.CupoMaximo)
                             : 0;
@@ -50,35 +51,46 @@
 
                                 <td class="ps-4">
                                     <span class="fw-semibold d-block">@e.Nombre</span>
-                                    <small class="text-muted">ID: #@e.EventoID</small>
                                 </td>
 
 
                                 <td>
                                     <div class="d-flex flex-column">
+
                                         <span class="small fw-bold text-dark">
                                             <i class="far fa-calendar-alt text-primary me-1"></i>
                                             @e.Fecha.ToString("dd/MM/yyyy")
                                         </span>
+
+                                        <span class="small text-muted">
+                                            <i class="far fa-clock text-secondary me-1"></i>
+                                            @e.HoraInicio.ToString(@"hh\:mm") - @e.HoraFin.ToString(@"hh\:mm")
+                                        </span>
+
                                         <span class="small text-muted">
                                             <i class="fas fa-map-marker-alt text-danger me-1"></i>
                                             @e.Lugar
                                         </span>
+
                                     </div>
                                 </td>
 
 
                                 <td class="text-center" style="min-width:140px">
+
                                     <div class="progress progress-mini mx-auto">
                                         <div class="progress-bar @colorBar"
-                                             style="width:@porcentaje%"></div>
+                                             style="width:@porcentaje%">
+                                        </div>
                                     </div>
+
                                     <div class="small fw-bold mt-1">
                                         @inscritos
                                         <span class="text-muted fw-normal">
                                             / @e.CupoMaximo
                                         </span>
                                     </div>
+
                                 </td>
 
 
@@ -90,16 +102,19 @@
                                                 <i class="fas fa-clock me-1"></i> Programado
                                             </span>
                                             break;
+
                                         case 2:
                                             <span class="badge bg-info-subtle text-info border">
                                                 <i class="fas fa-check me-1"></i> Realizado
                                             </span>
                                             break;
+
                                         case 3:
                                             <span class="badge bg-danger-subtle text-danger border">
                                                 <i class="fas fa-ban me-1"></i> Cancelado
                                             </span>
                                             break;
+
                                         default:
                                             <span class="badge bg-secondary">
                                                 Desconocido
@@ -110,6 +125,7 @@
 
 
                                 <td class="text-end pe-4">
+
                                     @if (rol == "Coordinador")
                                     {
                                         if (e.EstadoID == 1)
@@ -143,12 +159,16 @@
                                                   asp-action="Inscribirse"
                                                   method="post"
                                                   class="d-inline">
+
                                                 @Html.AntiForgeryToken()
+
                                                 <input type="hidden" name="eventoId" value="@e.EventoID" />
+
                                                 <button type="submit"
                                                         class="btn btn-sm btn-success">
                                                     <i class="fas fa-user-plus me-1"></i> Inscribirse
                                                 </button>
+
                                             </form>
                                         }
                                         else
@@ -158,7 +178,9 @@
                                             </span>
                                         }
                                     }
+
                                 </td>
+
                             </tr>
                         }
                     </tbody>
@@ -174,5 +196,6 @@
         window.mensajeExito = '@Html.Raw(TempData["Exito"])';
         window.mensajeError = '@Html.Raw(TempData["Error"])';
     </script>
+
     <script src="~/js/eventos.js" asp-append-version="true"></script>
 }

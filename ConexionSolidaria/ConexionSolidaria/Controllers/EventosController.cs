@@ -30,7 +30,10 @@ namespace ConexionSolidaria.Controllers
             var lista = new List<EventoListadoVM>();
             var rol = HttpContext.Session.GetString("Rol");
             var voluntarioIdSession = HttpContext.Session.GetInt32("VoluntarioID");
-            object voluntarioParam = (rol == "Coordinador") ? DBNull.Value : (object)voluntarioIdSession ?? DBNull.Value;
+
+            object voluntarioParam = (rol == "Coordinador")
+                ? DBNull.Value
+                : (object)voluntarioIdSession ?? DBNull.Value;
 
             try
             {
@@ -51,6 +54,8 @@ namespace ConexionSolidaria.Controllers
                         EventoID = Convert.ToInt32(dr["EventoID"]),
                         Nombre = dr["Nombre"].ToString(),
                         Fecha = Convert.ToDateTime(dr["Fecha"]),
+                        HoraInicio = (TimeSpan)dr["HoraInicio"],
+                        HoraFin = (TimeSpan)dr["HoraFin"],
                         Lugar = dr["Lugar"].ToString(),
                         CupoMaximo = Convert.ToInt32(dr["CupoMaximo"]),
                         CupoDisponible = Convert.ToInt32(dr["CupoDisponible"]),
@@ -98,21 +103,37 @@ namespace ConexionSolidaria.Controllers
                 cmd.Parameters.AddWithValue("@Opcion", 1);
                 cmd.Parameters.AddWithValue("@Nombre", model.Nombre);
                 cmd.Parameters.AddWithValue("@Fecha", model.Fecha);
+                cmd.Parameters.AddWithValue("@HoraInicio", model.HoraInicio);
+                cmd.Parameters.AddWithValue("@HoraFin", model.HoraFin);
                 cmd.Parameters.AddWithValue("@Lugar", model.Lugar);
                 cmd.Parameters.AddWithValue("@CupoMaximo", model.CupoMaximo);
                 cmd.Parameters.AddWithValue("@UsuarioCreadorID", usuarioId.Value);
 
                 cn.Open();
-                cmd.ExecuteNonQuery();
 
-                TempData["Exito"] = "Evento creado con éxito";
-                return RedirectToAction("Index");
+                using var dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    if (dr["Error"] != DBNull.Value)
+                    {
+                        TempData["Error"] = dr["Error"].ToString();
+                        return View(model);
+                    }
+
+                    if (dr["Mensaje"] != DBNull.Value)
+                    {
+                        TempData["Exito"] = dr["Mensaje"].ToString();
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "No se pudo crear el evento: " + ex.Message;
-                return View(model);
             }
+
+            return View(model);
         }
 
         public IActionResult Editar(int id)
@@ -127,6 +148,7 @@ namespace ConexionSolidaria.Controllers
                 using var cn = new SqlConnection(ConnectionString);
                 using var cmd = new SqlCommand("USP_EVENTO", cn);
                 cmd.CommandType = CommandType.StoredProcedure;
+
                 cmd.Parameters.AddWithValue("@Opcion", 3);
                 cmd.Parameters.AddWithValue("@VoluntarioID", DBNull.Value);
 
@@ -142,6 +164,8 @@ namespace ConexionSolidaria.Controllers
                             EventoID = id,
                             Nombre = dr["Nombre"].ToString(),
                             Fecha = Convert.ToDateTime(dr["Fecha"]),
+                            HoraInicio = (TimeSpan)dr["HoraInicio"],
+                            HoraFin = (TimeSpan)dr["HoraFin"],
                             Lugar = dr["Lugar"].ToString(),
                             CupoMaximo = Convert.ToInt32(dr["CupoMaximo"]),
                             EstadoID = Convert.ToInt32(dr["EstadoID"])
@@ -181,21 +205,37 @@ namespace ConexionSolidaria.Controllers
                 cmd.Parameters.AddWithValue("@EventoID", model.EventoID);
                 cmd.Parameters.AddWithValue("@Nombre", model.Nombre);
                 cmd.Parameters.AddWithValue("@Fecha", model.Fecha);
+                cmd.Parameters.AddWithValue("@HoraInicio", model.HoraInicio);
+                cmd.Parameters.AddWithValue("@HoraFin", model.HoraFin);
                 cmd.Parameters.AddWithValue("@Lugar", model.Lugar);
                 cmd.Parameters.AddWithValue("@CupoMaximo", model.CupoMaximo);
                 cmd.Parameters.AddWithValue("@EstadoID", model.EstadoID);
 
                 cn.Open();
-                cmd.ExecuteNonQuery();
 
-                TempData["Exito"] = "Evento actualizado correctamente";
-                return RedirectToAction("Index");
+                using var dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    if (dr["Error"] != DBNull.Value)
+                    {
+                        TempData["Error"] = dr["Error"].ToString();
+                        return View(model);
+                    }
+
+                    if (dr["Mensaje"] != DBNull.Value)
+                    {
+                        TempData["Exito"] = dr["Mensaje"].ToString();
+                        return RedirectToAction("Index");
+                    }
+                }
             }
             catch (Exception ex)
             {
                 TempData["Error"] = "Error al actualizar: " + ex.Message;
-                return View(model);
             }
+
+            return View(model);
         }
     }
 }
