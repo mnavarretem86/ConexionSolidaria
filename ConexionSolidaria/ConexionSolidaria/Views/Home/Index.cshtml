@@ -131,12 +131,22 @@
         <p class="fs-4 mb-4 opacity-75">
             Tu tiempo y tu esfuerzo son el motor de grandes transformaciones.
         </p>
-        <button type="button"
-                class="btn btn-light btn-lg px-5 py-3 fw-bold text-primary shadow"
-                data-bs-toggle="modal"
-                data-bs-target="#loginModal">
-            EMPEZAR AHORA
-        </button>
+        @if (Context.Session.GetInt32("UsuarioID") == null)
+        {
+            <a class="btn btn-light btn-lg px-5 py-3 fw-bold text-primary shadow"
+               asp-controller="Registro"
+               asp-action="Index">
+                REGISTRATE AHORA
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-light btn-lg px-5 py-3 fw-bold text-primary shadow"
+               asp-controller="Eventos"
+               asp-action="Index">
+                VER EVENTOS
+            </a>
+        }
     </div>
 </section>
 

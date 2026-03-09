@@ -19,13 +19,16 @@ namespace ConexionSolidaria.Controllers
             _config = config;
         }
 
+
         private string ConnectionString =>
             _config.GetConnectionString("DefaultConnection");
+
 
         private bool EsCoordinador()
         {
             return HttpContext.Session.GetString("Rol") == "Coordinador";
         }
+
         public IActionResult Index()
         {
             if (!EsCoordinador())
