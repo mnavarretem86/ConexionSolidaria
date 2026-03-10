@@ -41,6 +41,7 @@ public class AuthController : Controller
                 return Json(new { success = false, message = "Credenciales incorrectas" });
 
             HttpContext.Session.SetInt32("UsuarioID", usuarioID);
+
             if (voluntarioID.HasValue)
                 HttpContext.Session.SetInt32("VoluntarioID", voluntarioID.Value);
 
@@ -60,34 +61,52 @@ public class AuthController : Controller
         }
     }
 
-
     [HttpGet]
     public IActionResult CambiarPassword()
     {
         if (HttpContext.Session.GetInt32("UsuarioID") == null)
             return RedirectToAction("Index", "Home");
 
+        bool esTemporal = HttpContext.Session.GetInt32("DebeCambiarPassword") == 1;
+
+        ViewBag.EsTemporal = esTemporal;
+
         return View();
     }
 
-
     [HttpPost]
-    public IActionResult CambiarPassword(string nuevaPassword)
+    public IActionResult CambiarPassword(string nuevaPassword, string passwordActual)
     {
         try
         {
             int usuarioID = HttpContext.Session.GetInt32("UsuarioID") ?? 0;
-
-            string hash = BCrypt.Net.BCrypt.HashPassword(nuevaPassword);
+            bool esTemporal = HttpContext.Session.GetInt32("DebeCambiarPassword") == 1;
 
             _connection.Open();
+
+            if (!esTemporal)
+            {
+                using SqlCommand cmdCheck = new(
+                    "SELECT Contrasena FROM Usuario WHERE UsuarioID=@id",
+                    _connection
+                );
+
+                cmdCheck.Parameters.AddWithValue("@id", usuarioID);
+
+                string hashActual = cmdCheck.ExecuteScalar()?.ToString();
+
+                if (!BCrypt.Net.BCrypt.Verify(passwordActual, hashActual))
+                    return Json(new { success = false, message = "Contraseña actual incorrecta" });
+            }
+
+            string hashNueva = BCrypt.Net.BCrypt.HashPassword(nuevaPassword);
 
             using SqlCommand cmd = new(
                 "UPDATE Usuario SET Contrasena=@pass, DebeCambiarPassword=0 WHERE UsuarioID=@id",
                 _connection
             );
 
-            cmd.Parameters.AddWithValue("@pass", hash);
+            cmd.Parameters.AddWithValue("@pass", hashNueva);
             cmd.Parameters.AddWithValue("@id", usuarioID);
 
             cmd.ExecuteNonQuery();
@@ -105,7 +124,6 @@ public class AuthController : Controller
             _connection.Close();
         }
     }
-
 
     public IActionResult Logout()
     {
