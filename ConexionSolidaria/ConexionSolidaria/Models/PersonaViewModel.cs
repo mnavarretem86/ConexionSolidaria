@@ -26,9 +26,9 @@ namespace ConexionSolidaria.Models
         [StringLength(50)]
         [Display(Name = "Segundo Apellido")]
         public string? SegundoApellido { get; set; }
-
-        [Required(ErrorMessage = "El DNI es obligatorio")]
-        [StringLength(20)]
+        [Required(ErrorMessage = "DNI obligatorio")]
+        [StringLength(14, MinimumLength = 14, ErrorMessage = "Debe tener 14 caracteres")]
+        [RegularExpression(@"^[A-Za-z0-9]{14}$", ErrorMessage = "Solo letras y números")]
         public string DNI { get; set; } = null!;
 
         [Required(ErrorMessage = "El género es obligatorio")]
