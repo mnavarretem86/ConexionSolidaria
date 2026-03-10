@@ -6,6 +6,7 @@ using ConexionSolidaria.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System;
+using BCrypt.Net;
 
 namespace ConexionSolidaria.Controllers
 {
@@ -95,13 +96,15 @@ namespace ConexionSolidaria.Controllers
             if (!ModelState.IsValid)
                 return BadRequest("Datos inválidos");
 
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Contrasena);
+
             using var cn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("USP_USUARIO", cn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@Opcion", 1);
             cmd.Parameters.AddWithValue("@PersonaID", model.PersonaID);
-            cmd.Parameters.AddWithValue("@Contrasena", model.Contrasena);
+            cmd.Parameters.AddWithValue("@Contrasena", passwordHash);
             cmd.Parameters.AddWithValue("@RolID", model.RolID);
             cmd.Parameters.AddWithValue("@EstadoID", model.EstadoID);
 
@@ -129,13 +132,21 @@ namespace ConexionSolidaria.Controllers
             if (model.UsuarioID <= 0)
                 return BadRequest("UsuarioID inválido");
 
+            string passwordHash = null;
+
+            // Solo encriptar si se envió contraseña nueva
+            if (!string.IsNullOrEmpty(model.Contrasena))
+            {
+                passwordHash = BCrypt.Net.BCrypt.HashPassword(model.Contrasena);
+            }
+
             using var cn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("USP_USUARIO", cn);
             cmd.CommandType = CommandType.StoredProcedure;
 
             cmd.Parameters.AddWithValue("@Opcion", 2);
             cmd.Parameters.AddWithValue("@UsuarioID", model.UsuarioID);
-            cmd.Parameters.AddWithValue("@Contrasena", model.Contrasena);
+            cmd.Parameters.AddWithValue("@Contrasena", (object?)passwordHash ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@RolID", model.RolID);
 
             cn.Open();
@@ -181,6 +192,7 @@ namespace ConexionSolidaria.Controllers
 
             return Json(roles);
         }
+
         private bool TieneColumna(SqlDataReader reader, string columnName)
         {
             for (int i = 0; i < reader.FieldCount; i++)

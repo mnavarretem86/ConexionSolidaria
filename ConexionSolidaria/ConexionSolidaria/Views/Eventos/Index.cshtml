@@ -6,6 +6,7 @@
 }
 
 <div class="container-fluid eventos-container">
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2 class="text-dark fw-bold mb-0">
             <i class="fas fa-calendar-check text-primary me-2"></i>Listado de Eventos
@@ -21,19 +22,23 @@
 
     <div class="card border-0 shadow-sm">
         <div class="card-body p-0">
+
             <div class="table-responsive">
-                <table class="table table-hover align-middle mb-0">
+
+                <table class="table table-hover table-striped align-middle mb-0">
+
                     <thead class="table-light">
                         <tr>
-                            <th class="ps-4">Información</th>
-                            <th style="min-width:260px">Ubicación</th>
-                            <th class="text-center">Cupo</th>
-                            <th class="text-center">Estado</th>
-                            <th class="text-end pe-4">Acciones</th>
+                            <th class="ps-4" style="width:28%">Información</th>
+                            <th style="width:36%">Ubicación</th>
+                            <th class="text-center" style="width:16%">Cupo</th>
+                            <th class="text-center" style="width:10%">Estado</th>
+                            <th class="text-end pe-4" style="width:10%">Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody>
+
                         @foreach (var e in Model)
                         {
                             var inscritos = e.CupoMaximo - e.CupoDisponible;
@@ -49,13 +54,15 @@
 
                             <tr>
 
-                                <td class="ps-4">
-                                    <span class="fw-semibold d-block">@e.Nombre</span>
+                                <td class="ps-4 align-middle">
+                                    <div class="fw-semibold text-dark">
+                                        @e.Nombre
+                                    </div>
                                 </td>
 
 
                                 <td>
-                                    <div class="d-flex flex-column">
+                                    <div class="d-flex flex-column gap-1">
 
                                         <span class="small fw-bold text-dark">
                                             <i class="far fa-calendar-alt text-primary me-1"></i>
@@ -76,12 +83,15 @@
                                 </td>
 
 
-                                <td class="text-center" style="min-width:140px">
+                                <td class="text-center">
 
-                                    <div class="progress progress-mini mx-auto">
+                                    <div class="progress mx-auto"
+                                         style="height:6px; width:120px;">
+
                                         <div class="progress-bar @colorBar"
                                              style="width:@porcentaje%">
                                         </div>
+
                                     </div>
 
                                     <div class="small fw-bold mt-1">
@@ -95,22 +105,23 @@
 
 
                                 <td class="text-center">
+
                                     @switch (e.EstadoID)
                                     {
                                         case 1:
-                                            <span class="badge bg-success-subtle text-success border">
+                                            <span class="badge bg-success-subtle text-success border px-3 py-2">
                                                 <i class="fas fa-clock me-1"></i> Programado
                                             </span>
                                             break;
 
                                         case 2:
-                                            <span class="badge bg-info-subtle text-info border">
+                                            <span class="badge bg-info-subtle text-info border px-3 py-2">
                                                 <i class="fas fa-check me-1"></i> Realizado
                                             </span>
                                             break;
 
                                         case 3:
-                                            <span class="badge bg-danger-subtle text-danger border">
+                                            <span class="badge bg-danger-subtle text-danger border px-3 py-2">
                                                 <i class="fas fa-ban me-1"></i> Cancelado
                                             </span>
                                             break;
@@ -121,6 +132,7 @@
                                             </span>
                                             break;
                                     }
+
                                 </td>
 
 
@@ -149,7 +161,7 @@
                                     {
                                         if (e.EstaInscrito)
                                         {
-                                            <span class="badge bg-success-subtle text-success border">
+                                            <span class="badge bg-success-subtle text-success border px-3 py-2">
                                                 <i class="fas fa-user-check me-1"></i> Inscrito
                                             </span>
                                         }
@@ -162,7 +174,9 @@
 
                                                 @Html.AntiForgeryToken()
 
-                                                <input type="hidden" name="eventoId" value="@e.EventoID" />
+                                                <input type="hidden"
+                                                       name="eventoId"
+                                                       value="@e.EventoID" />
 
                                                 <button type="submit"
                                                         class="btn btn-sm btn-success">
@@ -173,7 +187,7 @@
                                         }
                                         else
                                         {
-                                            <span class="badge bg-light text-muted border">
+                                            <span class="badge bg-light text-muted border px-3 py-2">
                                                 Agotado
                                             </span>
                                         }
@@ -183,19 +197,26 @@
 
                             </tr>
                         }
+
                     </tbody>
 
                 </table>
+
             </div>
+
         </div>
     </div>
+
 </div>
 
+
 @section Scripts {
+
     <script>
         window.mensajeExito = '@Html.Raw(TempData["Exito"])';
         window.mensajeError = '@Html.Raw(TempData["Error"])';
     </script>
 
     <script src="~/js/eventos.js" asp-append-version="true"></script>
+
 }

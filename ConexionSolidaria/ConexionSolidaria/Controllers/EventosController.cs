@@ -22,29 +22,43 @@ namespace ConexionSolidaria.Controllers
         private string ConnectionString =>
             _config.GetConnectionString("DefaultConnection");
 
+        private bool EsCoordinador()
+        {
+            return HttpContext.Session.GetString("Rol") == "Coordinador";
+        }
+
+        private int? UsuarioID()
+        {
+            return HttpContext.Session.GetInt32("UsuarioID");
+        }
+
+        private int? VoluntarioID()
+        {
+            return HttpContext.Session.GetInt32("VoluntarioID");
+        }
+
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("UsuarioID") == null)
+            if (UsuarioID() == null)
                 return RedirectToAction("Index", "Home");
 
             var lista = new List<EventoListadoVM>();
-            var rol = HttpContext.Session.GetString("Rol");
-            var voluntarioIdSession = HttpContext.Session.GetInt32("VoluntarioID");
-
-            object voluntarioParam = (rol == "Coordinador")
-                ? DBNull.Value
-                : (object)voluntarioIdSession ?? DBNull.Value;
 
             try
             {
                 using var cn = new SqlConnection(ConnectionString);
                 using var cmd = new SqlCommand("USP_EVENTO", cn);
-                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Opcion", 3);
-                cmd.Parameters.AddWithValue("@VoluntarioID", voluntarioParam);
+
+                if (EsCoordinador())
+                    cmd.Parameters.AddWithValue("@VoluntarioID", DBNull.Value);
+                else
+                    cmd.Parameters.AddWithValue("@VoluntarioID", (object?)VoluntarioID() ?? DBNull.Value);
 
                 cn.Open();
+
                 using var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
@@ -74,7 +88,7 @@ namespace ConexionSolidaria.Controllers
 
         public IActionResult Crear()
         {
-            if (HttpContext.Session.GetString("Rol") != "Coordinador")
+            if (!EsCoordinador())
                 return RedirectToAction("Index");
 
             return View();
@@ -84,20 +98,19 @@ namespace ConexionSolidaria.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Crear(Evento model)
         {
-            if (HttpContext.Session.GetString("Rol") != "Coordinador")
+            if (!EsCoordinador())
                 return RedirectToAction("Index");
 
             if (!ModelState.IsValid)
                 return View(model);
 
-            var usuarioId = HttpContext.Session.GetInt32("UsuarioID");
-            if (usuarioId == null)
-                return RedirectToAction("Index", "Home");
+            var usuarioId = UsuarioID();
 
             try
             {
                 using var cn = new SqlConnection(ConnectionString);
                 using var cmd = new SqlCommand("USP_EVENTO", cn);
+
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@Opcion", 1);
@@ -111,22 +124,16 @@ namespace ConexionSolidaria.Controllers
 
                 cn.Open();
 
-                using var dr = cmd.ExecuteReader();
+                string mensaje = ObtenerMensaje(cmd);
 
-                if (dr.Read())
+                if (mensaje.Contains("Error"))
                 {
-                    if (dr["Error"] != DBNull.Value)
-                    {
-                        TempData["Error"] = dr["Error"].ToString();
-                        return View(model);
-                    }
-
-                    if (dr["Mensaje"] != DBNull.Value)
-                    {
-                        TempData["Exito"] = dr["Mensaje"].ToString();
-                        return RedirectToAction("Index");
-                    }
+                    TempData["Error"] = mensaje;
+                    return View(model);
                 }
+
+                TempData["Exito"] = mensaje;
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -138,7 +145,7 @@ namespace ConexionSolidaria.Controllers
 
         public IActionResult Editar(int id)
         {
-            if (HttpContext.Session.GetString("Rol") != "Coordinador")
+            if (!EsCoordinador())
                 return RedirectToAction("Index");
 
             Evento evento = null;
@@ -147,12 +154,13 @@ namespace ConexionSolidaria.Controllers
             {
                 using var cn = new SqlConnection(ConnectionString);
                 using var cmd = new SqlCommand("USP_EVENTO", cn);
-                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Opcion", 3);
                 cmd.Parameters.AddWithValue("@VoluntarioID", DBNull.Value);
 
                 cn.Open();
+
                 using var dr = cmd.ExecuteReader();
 
                 while (dr.Read())
@@ -176,7 +184,7 @@ namespace ConexionSolidaria.Controllers
             }
             catch (Exception ex)
             {
-                TempData["Error"] = "Error al buscar el evento: " + ex.Message;
+                TempData["Error"] = ex.Message;
             }
 
             if (evento == null)
@@ -189,7 +197,7 @@ namespace ConexionSolidaria.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Editar(Evento model)
         {
-            if (HttpContext.Session.GetString("Rol") != "Coordinador")
+            if (!EsCoordinador())
                 return RedirectToAction("Index");
 
             if (!ModelState.IsValid)
@@ -199,6 +207,7 @@ namespace ConexionSolidaria.Controllers
             {
                 using var cn = new SqlConnection(ConnectionString);
                 using var cmd = new SqlCommand("USP_EVENTO", cn);
+
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@Opcion", 2);
@@ -213,22 +222,16 @@ namespace ConexionSolidaria.Controllers
 
                 cn.Open();
 
-                using var dr = cmd.ExecuteReader();
+                string mensaje = ObtenerMensaje(cmd);
 
-                if (dr.Read())
+                if (mensaje.Contains("Error"))
                 {
-                    if (dr["Error"] != DBNull.Value)
-                    {
-                        TempData["Error"] = dr["Error"].ToString();
-                        return View(model);
-                    }
-
-                    if (dr["Mensaje"] != DBNull.Value)
-                    {
-                        TempData["Exito"] = dr["Mensaje"].ToString();
-                        return RedirectToAction("Index");
-                    }
+                    TempData["Error"] = mensaje;
+                    return View(model);
                 }
+
+                TempData["Exito"] = mensaje;
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -236,6 +239,16 @@ namespace ConexionSolidaria.Controllers
             }
 
             return View(model);
+        }
+
+        private string ObtenerMensaje(SqlCommand cmd)
+        {
+            using var dr = cmd.ExecuteReader();
+
+            if (dr.Read())
+                return dr[0].ToString();
+
+            return "Operación completada";
         }
     }
 }

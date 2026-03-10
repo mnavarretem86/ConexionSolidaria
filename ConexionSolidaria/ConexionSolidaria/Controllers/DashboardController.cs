@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using ConexionSolidaria.ViewModels;
 
 namespace ConexionSolidaria.Controllers
@@ -21,16 +22,13 @@ namespace ConexionSolidaria.Controllers
         private string ConnectionString =>
             _config.GetConnectionString("DefaultConnection");
 
-        public IActionResult Index()
+        public IActionResult Index(string search, string estado, DateTime? fechaInicio, DateTime? fechaFin)
         {
             if (HttpContext.Session.GetString("Rol") != "Coordinador")
                 return RedirectToAction("Index", "Home");
 
-            var model = new DashboardVM
-            {
-                Eventos = new List<DashboardEventoVM>(),
-                Inscripciones = new List<DashboardInscripcionVM>()
-            };
+            var todosLosEventos = new List<DashboardEventoVM>();
+            var todasLasInscripciones = new List<DashboardInscripcionVM>();
 
             using var cn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("USP_DASHBOARD", cn);
@@ -40,12 +38,11 @@ namespace ConexionSolidaria.Controllers
 
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@Opcion", 1);
-
             using (var dr = cmd.ExecuteReader())
             {
                 while (dr.Read())
                 {
-                    model.Eventos.Add(new DashboardEventoVM
+                    todosLosEventos.Add(new DashboardEventoVM
                     {
                         EventoID = Convert.ToInt32(dr["EventoID"]),
                         Nombre = dr["Nombre"].ToString(),
@@ -60,14 +57,14 @@ namespace ConexionSolidaria.Controllers
                     });
                 }
             }
+
             cmd.Parameters.Clear();
             cmd.Parameters.AddWithValue("@Opcion", 2);
-
             using (var dr = cmd.ExecuteReader())
             {
                 while (dr.Read())
                 {
-                    model.Inscripciones.Add(new DashboardInscripcionVM
+                    todasLasInscripciones.Add(new DashboardInscripcionVM
                     {
                         NombreVoluntario = dr["NombreVoluntario"].ToString(),
                         Evento = dr["Evento"].ToString(),
@@ -79,6 +76,43 @@ namespace ConexionSolidaria.Controllers
                     });
                 }
             }
+
+            var eventosFiltrados = todosLosEventos.AsEnumerable();
+
+            if (!string.IsNullOrEmpty(search))
+            {
+                eventosFiltrados = eventosFiltrados.Where(e =>
+                    e.Nombre.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    e.Lugar.Contains(search, StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!string.IsNullOrEmpty(estado))
+            {
+                eventosFiltrados = eventosFiltrados.Where(e => e.EstadoEvento == estado);
+            }
+
+            if (fechaInicio.HasValue)
+            {
+                eventosFiltrados = eventosFiltrados.Where(e => e.Fecha.Date >= fechaInicio.Value.Date);
+            }
+            if (fechaFin.HasValue)
+            {
+                eventosFiltrados = eventosFiltrados.Where(e => e.Fecha.Date <= fechaFin.Value.Date);
+            }
+
+            var listaEventosFinal = eventosFiltrados.ToList();
+
+            var nombresEventosFiltrados = listaEventosFinal.Select(e => e.Nombre).ToList();
+
+            var inscripcionesFiltradas = todasLasInscripciones
+                .Where(i => nombresEventosFiltrados.Contains(i.Evento))
+                .ToList();
+
+            var model = new DashboardVM
+            {
+                Eventos = listaEventosFinal,
+                Inscripciones = inscripcionesFiltradas
+            };
 
             return View(model);
         }

@@ -5,6 +5,7 @@ using ConexionSolidaria.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
+using BCrypt.Net;
 
 namespace ConexionSolidaria.Controllers
 {
@@ -20,11 +21,11 @@ namespace ConexionSolidaria.Controllers
         private string ConnectionString =>
             _config.GetConnectionString("DefaultConnection");
 
-
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult Registrar(PersonaViewModel model)
         {
@@ -37,6 +38,9 @@ namespace ConexionSolidaria.Controllers
 
                 return BadRequest(errores);
             }
+
+            string passwordTemporal = "UdeM" + model.DNI[^6..];
+            string passwordHash = BCrypt.Net.BCrypt.HashPassword(passwordTemporal);
 
             using var cn = new SqlConnection(ConnectionString);
             using var cmd = new SqlCommand("USP_REGISTRO", cn);
@@ -53,32 +57,17 @@ namespace ConexionSolidaria.Controllers
             cmd.Parameters.AddWithValue("@Email", model.Email);
             cmd.Parameters.AddWithValue("@Telefono", (object?)model.Telefono ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@Direccion", (object?)model.Direccion ?? DBNull.Value);
+            cmd.Parameters.AddWithValue("@PasswordHash", passwordHash);
 
             cn.Open();
 
             using var dr = cmd.ExecuteReader();
 
-            if (dr.Read())
-            {
-                if (TieneColumna(dr, "Error"))
-                    return BadRequest(dr["Error"].ToString());
+            if (dr.Read() && TieneColumna(dr, "Error"))
+                return BadRequest(dr["Error"].ToString());
 
-                if (TieneColumna(dr, "Mensaje"))
-                {
-                    var mensaje = dr["Mensaje"].ToString();
-
-                    if (TieneColumna(dr, "PasswordTemporal"))
-                    {
-                        mensaje += $" | Contraseña temporal: {dr["PasswordTemporal"]}";
-                    }
-
-                    return Ok(mensaje);
-                }
-            }
-
-            return Ok("Registro exitoso");
+            return Ok($"Registro exitoso | Contraseña temporal: {passwordTemporal}");
         }
-
 
         private bool TieneColumna(SqlDataReader reader, string columnName)
         {
